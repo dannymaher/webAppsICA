@@ -50,8 +50,9 @@ namespace ThAmCo.Events.Controllers
         }
 
         // GET: GuestBookings/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
+            ViewData["EventIdNum"] = id;
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Email");
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "Title");
             return View();
