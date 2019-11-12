@@ -19,8 +19,9 @@ namespace ThAmCo.Events.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
+            ViewData["eventID"] = id;
             return View(await _context.Events.ToListAsync());
         }
 

@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<ThAmCo.Events.Data.GuestBooking>
 
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -7,7 +8,7 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-route-id="@ViewData["eventID"]">Create New</a>
 </p>
 <table class="table">
     <thead>

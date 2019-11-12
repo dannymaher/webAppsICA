@@ -26,6 +26,7 @@ namespace ThAmCo.Events.Controllers
                 .Include(g => g.Event)
                 .Where(t => (id == null || t.EventId == id ))
                 ;
+            ViewData["eventID"] = id;
             return View(await eventsDbContext.ToListAsync());
         }
 
