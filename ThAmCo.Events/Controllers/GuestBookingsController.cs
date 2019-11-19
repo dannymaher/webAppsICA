@@ -55,7 +55,7 @@ namespace ThAmCo.Events.Controllers
         {
             ViewData["EventIdNum"] = id;
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Email");
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Title");
+            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Title", id);
             return View();
         }
 
@@ -66,11 +66,21 @@ namespace ThAmCo.Events.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CustomerId,EventId,Attended")] GuestBooking guestBooking)
         {
+           
             if (ModelState.IsValid)
             {
-                _context.Add(guestBooking);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var personExists = _context.Guests.Any(pe => pe.CustomerId == guestBooking.CustomerId && pe.EventId == guestBooking.EventId);
+                if (personExists)
+                {
+                    ModelState.AddModelError(String.Empty, "This guest is already booked onto this event");
+                }
+                else
+                {
+                    _context.Add(guestBooking);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                
             }
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Email", guestBooking.CustomerId);
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "Title", guestBooking.EventId);

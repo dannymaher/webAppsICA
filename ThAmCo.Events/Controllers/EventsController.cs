@@ -28,6 +28,7 @@ namespace ThAmCo.Events.Controllers
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            
             if (id == null)
             {
                 return NotFound();
@@ -35,11 +36,16 @@ namespace ThAmCo.Events.Controllers
 
             var @event = await _context.Events
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (@event == null)
             {
                 return NotFound();
             }
-
+            var eventGuests = _context.Events
+                .Include(g => g.Bookings)
+                .Where(m => (id == null) ||m.Id ==id)
+                ;
+               
             return View(@event);
         }
 
