@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Data;
+using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.Controllers
 {
@@ -25,6 +26,20 @@ namespace ThAmCo.Events.Controllers
             return View(await _context.Events.ToListAsync());
         }
 
+        public async Task<IActionResult> ListGuests(int? id)
+        {
+            var model = _context.Guests.Where(p => p.EventId == id).Include(g => g.Customer).ToList();
+            var viewModel = model.Select(p => new EventViewModel
+            {
+                id = p.EventId,
+                FirstName = p.Customer.FirstName,
+                Surname = p.Customer.Surname,
+                Attended = p.Attended
+            });
+
+            return View(viewModel);
+        }
+
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -41,10 +56,7 @@ namespace ThAmCo.Events.Controllers
             {
                 return NotFound();
             }
-            var eventGuests = _context.Events
-                .Include(g => g.Bookings)
-                .Where(m => (id == null) ||m.Id ==id)
-                ;
+            
                
             return View(@event);
         }

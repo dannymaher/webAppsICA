@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.Data
 {
@@ -68,5 +69,7 @@ namespace ThAmCo.Events.Data
                 );
             }
         }
+
+        public DbSet<ThAmCo.Events.Models.EventViewModel> EventViewModel { get; set; }
     }
 }
