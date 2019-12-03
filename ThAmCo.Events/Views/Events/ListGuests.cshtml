@@ -9,37 +9,61 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Surname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Attended)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Attended)
-            </td>
-            <td>
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Surname)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Attended)
+                </th>
+                <th>
+                    set attended
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
                 
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Surname)
+                    </td>
+                    <td>
+                        
+                            
+                            
+
+                            @Html.DisplayFor(modelItem => item.Attended)
+                            
+                        
+                    </td>
+                    <td>
+                        <form asp-action="UpdateAttended">
+                            <input id="CustomerId" name="CustomerId" type="hidden" value="@item.CustomerId" />
+                            <input id="EventId" name="EventId" type="hidden" value="@item.id" />
+                            <input type="checkbox" name="Attended" value="true" />
+                            <input type="submit" value="Submit" class="btn btn-default" />
+                        </form>
+                        
+                    </td>
+                    <td></td>
+                
+            </tr>
+            }
+
+        </tbody>
+    </table>
+
+

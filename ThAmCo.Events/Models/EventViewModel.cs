@@ -10,6 +10,8 @@ namespace ThAmCo.Events.Models
     {
         public int id { get; set; }
 
+        public int CustomerId { get; set; }
+
         [Required]
         public String FirstName { get; set; }
 

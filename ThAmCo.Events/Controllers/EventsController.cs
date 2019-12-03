@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Data;
 using ThAmCo.Events.Models;
 
+
 namespace ThAmCo.Events.Controllers
 {
     public class EventsController : Controller
@@ -32,6 +33,7 @@ namespace ThAmCo.Events.Controllers
             var viewModel = model.Select(p => new EventViewModel
             {
                 id = p.EventId,
+                CustomerId = p.CustomerId,
                 FirstName = p.Customer.FirstName,
                 Surname = p.Customer.Surname,
                 Attended = p.Attended
@@ -39,6 +41,38 @@ namespace ThAmCo.Events.Controllers
 
             return View(viewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAttended(int id, [Bind("CustomerId,EventId,Attended")] GuestBooking guestBooking)
+        {
+           
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(guestBooking);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EventExists(guestBooking.EventId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                //return RedirectToAction(nameof(Index));
+            }
+
+
+            return RedirectToAction(nameof(Index));
+
+        }
+
 
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
