@@ -69,7 +69,7 @@ namespace ThAmCo.Events.Controllers
             }
 
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ListGuests), new { id = guestBooking.EventId });
 
         }
 

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Data;
+using ThAmCo.Events.Models;
+
 
 namespace ThAmCo.Events.Controllers
 {
@@ -33,7 +35,18 @@ namespace ThAmCo.Events.Controllers
             }
 
             var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Select(p => new CustomerEventDetails
+                {
+                    CustomerId = p.Id,
+                    FirstName = p.FirstName,
+                    Surname = p.Surname,
+                    Email = p.Email,
+                    Events = _context.Guests
+                    .Where(m => m.CustomerId == p.Id)
+                    .Select(m => new EventListModel){
+
+                    }
+                })
             if (customer == null)
             {
                 return NotFound();
@@ -41,6 +54,8 @@ namespace ThAmCo.Events.Controllers
 
             return View(customer);
         }
+
+       
 
         // GET: Customers/Create
         public IActionResult Create()

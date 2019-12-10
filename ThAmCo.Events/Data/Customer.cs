@@ -18,6 +18,9 @@ namespace ThAmCo.Events.Data
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
+
         public List<GuestBooking> Bookings { get; set; }
+
+
     }
 }
