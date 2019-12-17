@@ -9,6 +9,8 @@ namespace ThAmCo.Events.Models
     {
         public int EventId { get; set; }
         public string Title { get; set; }
+
+        public Boolean Attended { get; set; }
         
     }
 }

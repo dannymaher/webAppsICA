@@ -42,11 +42,19 @@ namespace ThAmCo.Events.Controllers
                     Surname = p.Surname,
                     Email = p.Email,
                     Events = _context.Guests
-                    .Where(m => m.CustomerId == p.Id)
-                    .Select(m => new EventListModel){
+                        .Where(m => m.CustomerId == p.Id)
+                        .Select(m => new EventListModel
+                        {
+                            EventId = m.EventId,
+                            Title = m.Event.Title,
+                            Attended = m.Attended
 
-                    }
-                })
+                        })
+
+
+
+
+                }).FirstOrDefaultAsync(m => m.CustomerId == id);
             if (customer == null)
             {
                 return NotFound();

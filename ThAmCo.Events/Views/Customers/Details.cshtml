@@ -1,4 +1,4 @@
-﻿@model ThAmCo.Events.Data.Customer
+﻿@model CustomerEventDetails
 @{
     ViewData["Title"] = "Details";
 }
@@ -30,12 +30,20 @@
     </dl>
 </div>
 <div>
-    
+    <h4>Events</h4>
+    @if (Model.Events.Any())
+    {
+        <partial name="EventDetails" for=" Events" />
+    }
+    else
+    {
+        <p>Not attending any events</p>
+    }
 
 </div>
 
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.CustomerId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
