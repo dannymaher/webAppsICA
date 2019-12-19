@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using ThAmCo.Events.Data;
 using ThAmCo.Events.Models;
 
@@ -186,6 +187,34 @@ namespace ThAmCo.Events.Controllers
             return View(@event);
         }
 
+        
+        public async Task<IActionResult> DeleteBooking(int? EventId, int? CustomerId)
+        {
+            if (EventId == null || CustomerId == null)
+            {
+               return NotFound();
+            }
+            var Booking = await _context.Customers.FirstOrDefaultAsync(m => m.Id == CustomerId) ;
+                
+            if(Booking == null)
+            {
+                return NotFound();
+            }
+            return View(Booking);
+        }
+
+        public async Task<IActionResult> DeleteBookingConfirmed(int? EventId, int? CustomerId)
+        {
+            var @booking = await _context.Guests.FirstOrDefaultAsync(m => m.CustomerId == CustomerId); //&& m.EventId == EventId) ;
+            //var @booking = await _context.Events.Include(g => g.Bookings).FirstOrDefault(g => g.Bookings.);
+            
+            _context.Guests.Remove(@booking);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index) );
+            
+            
+        }
+
         // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -194,7 +223,7 @@ namespace ThAmCo.Events.Controllers
             var @event = await _context.Events.FindAsync(id);
             _context.Events.Remove(@event);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index) );
         }
 
         private bool EventExists(int id)

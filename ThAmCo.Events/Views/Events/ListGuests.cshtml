@@ -61,9 +61,8 @@
                         
                     </td>
                     <td>
-                        <form asp-action="Delete">
-                            <input type="submit" value="Delete Booking" class="btn btn-default" />
-                        </form>
+                        
+                        @Html.ActionLink("Delete", "DeleteBooking", new { EventId = @item.id, CustomerId = @item.CustomerId   })
                     </td>
                     <td></td>
                 
