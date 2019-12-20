@@ -46,7 +46,7 @@ namespace ThAmCo.Events.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateAttended(int id, [Bind("CustomerId,EventId,Attended")] GuestBooking guestBooking)
         {
-           
+
 
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace ThAmCo.Events.Controllers
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            
+
             if (id == null)
             {
                 return NotFound();
@@ -91,8 +91,8 @@ namespace ThAmCo.Events.Controllers
             {
                 return NotFound();
             }
-            
-               
+
+
             return View(@event);
         }
 
@@ -169,6 +169,7 @@ namespace ThAmCo.Events.Controllers
             return View(@event);
         }
 
+        [HttpPost]
         // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -187,25 +188,27 @@ namespace ThAmCo.Events.Controllers
             return View(@event);
         }
 
-        
-        public async Task<IActionResult> DeleteBooking(int? EventId, int? CustomerId)
+        [HttpPost]
+        public async Task<IActionResult> DeleteBooking(int id, [Bind("CustomerId,EventId,Attended,FirstName,Surname")] EventViewModel @model )
         {
-            if (EventId == null || CustomerId == null)
+            if (@model.id == null || @model.CustomerId == null)
             {
                return NotFound();
             }
-            var Booking = await _context.Customers.FirstOrDefaultAsync(m => m.Id == CustomerId) ;
+            var @model2 = model;
+            model2.id = id;
+            //var Booking = await _context.Customers.FirstOrDefaultAsync(m => m.Id == CustomerId) ;
                 
-            if(Booking == null)
-            {
-                return NotFound();
-            }
-            return View(Booking);
+            //if(Booking == null)
+            //{
+               // return NotFound();
+            //}
+            return View(@model2);
         }
 
-        public async Task<IActionResult> DeleteBookingConfirmed(int? EventId, int? CustomerId)
+        public async Task<IActionResult> DeleteBookingConfirmed(int? id, [Bind("CustomerId,EventId,Attended,FirstName,Surname")] EventViewModel @model)
         {
-            var @booking = await _context.Guests.FirstOrDefaultAsync(m => m.CustomerId == CustomerId); //&& m.EventId == EventId) ;
+            var @booking = await _context.Guests.FirstOrDefaultAsync(m => m.CustomerId == model.CustomerId && m.EventId == id); //&& m.EventId == EventId) ;
             //var @booking = await _context.Events.Include(g => g.Bookings).FirstOrDefault(g => g.Bookings.);
             
             _context.Guests.Remove(@booking);

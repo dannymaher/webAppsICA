@@ -1,21 +1,27 @@
-﻿@model ThAmCo.Events.Data.Customer
+﻿@model ThAmCo.Events.Models.EventViewModel
 
 @{
-    ViewData["Title"] = "DeleteBookings";
+    ViewData["Title"] = "DeleteBooking";
 }
 
-<h2>DeleteBookings</h2>
+<h2>DeleteBooking</h2>
 
-<h3>Are you sure you want to delete this booking from this event?</h3>
+<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Customer</h4>
+    <h4>EventViewModel</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Surname)
+            @Html.DisplayNameFor(model => model.CustomerId)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Surname)
+            @Html.DisplayFor(model => model.CustomerId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.id)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.FirstName)
@@ -24,20 +30,29 @@
             @Html.DisplayFor(model => model.FirstName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.Surname)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Email)
-            
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Attended)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Attended)
         </dd>
     </dl>
-    
-    string param1 = Request[EventId];
-    string param2 = Request[CustomerId]
-    
+
     <form asp-action="DeleteBookingConfirmed">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="DeleteBooking" class="btn btn-default" /> |
+        <input type="hidden" asp-for="id" />
+        <input id="CustomerId" name="CustomerId" type="hidden" value="@Model.CustomerId" />
+        <input id="EventId" name="EventId" type="hidden" value="@Model.id" />
+        <input id="Attended" name="Attended" type="hidden" value="@Model.Attended" />
+        <input id=" FirstName" name="FirstName" type="hidden" value="@Model.FirstName" />
+        <input id="Surname" name="Surname" type="hidden" value="@Model.Surname" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
+
     </form>
+    
 </div>

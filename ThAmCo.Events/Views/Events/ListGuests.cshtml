@@ -22,6 +22,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Attended)
                 </th>
+                
                 <th>
                     set attended
                 </th>
@@ -39,6 +40,7 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Surname)
+                        @Html.HiddenFor(ModelItem => item.id)
                     </td>
                     <td>
                         
@@ -61,8 +63,18 @@
                         
                     </td>
                     <td>
+                        <form asp-action="DeleteBooking">
+                            <input type="hidden" value="@item.id" />
+                            <input id="CustomerId" name="CustomerId" type="hidden" value="@item.CustomerId" />
+                            <input id="EventId" name="EventId" type="hidden" value="@item.id" />
+                            <input id="Attended" name="Attended" type="hidden" value="@item.Attended" />
+                            <input id=" FirstName" name="FirstName" type="hidden" value="@item.FirstName" />
+                            <input id="Surname" name="Surname" type="hidden" value="@item.Surname" />
+                            <button type="submit" value="@item.id" name="id">Delete </button>
+                            
+
+                        </form>
                         
-                        @Html.ActionLink("Delete", "DeleteBooking", new { EventId = @item.id, CustomerId = @item.CustomerId   })
                     </td>
                     <td></td>
                 
