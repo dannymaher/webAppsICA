@@ -43,6 +43,25 @@ namespace ThAmCo.Events.Controllers
             return View(viewModel);
         }
 
+        public async Task<IActionResult> ReserveVenue(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var @event = await _context.Events
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
+
+            return View(@event);
+        }
+
         [HttpPost]
         public async Task<IActionResult> UpdateAttended(int id, [Bind("CustomerId,EventId,Attended")] GuestBooking guestBooking)
         {
