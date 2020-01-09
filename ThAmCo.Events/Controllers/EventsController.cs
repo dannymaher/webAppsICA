@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
 
 using ThAmCo.Events.Data;
 using ThAmCo.Events.Models;
-
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace ThAmCo.Events.Controllers
 {
@@ -39,10 +41,11 @@ namespace ThAmCo.Events.Controllers
                 Surname = p.Customer.Surname,
                 Attended = p.Attended
             });
-
+            
             return View(viewModel);
         }
-
+        
+       
         public async Task<IActionResult> ReserveVenue(int? id)
         {
             if (id == null)
@@ -57,9 +60,31 @@ namespace ThAmCo.Events.Controllers
             {
                 return NotFound();
             }
+            var venues = new List<VenueDto>().AsEnumerable();
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new System.Uri("http://localhost:23652/");
+            client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+            HttpResponseMessage response = await client.GetAsync("api/availability");
+            if (response.IsSuccessStatusCode)
+            {
+                venues = await response.Content.ReadAsAsync<IEnumerable<VenueDto>>();
+            }
+            else
+            {
+                Debug.WriteLine("reserve venue recieved a bad response from the web service");
+            }
+            var model = _context.Events.Where(m => m.Id == id);
+            var viewModel = model.Select(p => new reserveVenueModel
+            {
+                Id = p.Id,
+                Title = p.Title,
+                Date = p.Date,
+                Duration = p.Duration,
+                TypeId = p.TypeId,
+                Venues = new  SelectList(venues, "Code", "Name")
 
-
-            return View(@event);
+        }) ;
+            return View(viewModel);
         }
 
         [HttpPost]
