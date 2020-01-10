@@ -11,6 +11,7 @@ using ThAmCo.Events.Data;
 using ThAmCo.Events.Models;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using ThAmCo.Venues.Models;
 
 namespace ThAmCo.Events.Controllers
 {
@@ -41,11 +42,11 @@ namespace ThAmCo.Events.Controllers
                 Surname = p.Customer.Surname,
                 Attended = p.Attended
             });
-            
+
             return View(viewModel);
         }
 
-        
+
         public async Task<IActionResult> ReserveVenue(int? id)
         {
             if (id == null)
@@ -60,11 +61,13 @@ namespace ThAmCo.Events.Controllers
             {
                 return NotFound();
             }
+            DateTime dt = @event.Date;
+            string date = dt.ToString("yyyy-MM-dd");
             var venues = new List<VenueDto>().AsEnumerable();
             HttpClient client = new HttpClient();
             client.BaseAddress = new System.Uri("http://localhost:23652/");
             client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
-            HttpResponseMessage response = await client.GetAsync("api/availability");
+            HttpResponseMessage response = await client.GetAsync("api/availability?eventType=" + @event.TypeId + "&beginDate=" + date + "&endDate=" + date);
             if (response.IsSuccessStatusCode)
             {
                 venues = await response.Content.ReadAsAsync<IEnumerable<VenueDto>>();
@@ -81,13 +84,28 @@ namespace ThAmCo.Events.Controllers
                 Date = p.Date,
                 Duration = p.Duration,
                 TypeId = p.TypeId,
-                Venues = new  SelectList(venues, "Code", "Name")
-               
+                Venues = new SelectList(venues, "Code", "Name")
 
-        }) ;
+
+            });
             return View(viewModel);
         }
-
+        public async Task<IActionResult> ReserveVenueConfirm(int id, [Bind("Title,Date,Duration,TypeId,venues")] reserveVenueModel model)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new System.Uri("http://localhost:23652/");
+            client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+            var reserve = new ReservationPostDto
+            {
+                EventDate = model.Date,
+                
+                //VenueCode =  model.Venues.   ,
+                StaffId = "1"
+            };
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/reservations", reserve);
+          
+            return RedirectToAction(nameof(Index));
+        }
         [HttpPost]
         public async Task<IActionResult> UpdateAttended(int id, [Bind("CustomerId,EventId,Attended")] GuestBooking guestBooking)
         {

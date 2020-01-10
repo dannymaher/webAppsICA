@@ -42,9 +42,18 @@
 
 </div>
 <div>
-    @foreach(var item in Model)
+    @foreach (var item in Model)
     {
-        @Html.DropDownListFor(ModelItem => item.Venues, item.Venues ,"select a venue")
+        @Html.DropDownListFor(ModelItem => item.Venues, item.Venues, "select a venue")
+    <form asp-action="ReserveVenueConfirm">
+        <input type="hidden" value="@item.Id" />
+        <input id="Title" name="Title" type="hidden" value="@item.Title" />
+        <input id="Date" name="Date" type="hidden" value="@item.Date" />
+        <input id="Duration" name="Duration" type="hidden" value="@item.Duration" />
+        <input id=" TypeId" name="TypeId" type="hidden" value="@item.TypeId" />
+        <input id="Venues" name="Venues" type="hidden" value="@item.Venues" />
+        <button type="submit" value="@item.Id" name="id">Reserve Venue </button>
+    </form>
     }
 </div>
 <div>
