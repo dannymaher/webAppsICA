@@ -8,7 +8,7 @@ namespace ThAmCo.Events.Models
     public class VenueDto
     {
 
-        String code;
-        String name;
+        public String Code { get; set; }
+        public String Name { get; set; }
     }
 }

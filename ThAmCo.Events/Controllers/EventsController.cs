@@ -44,8 +44,8 @@ namespace ThAmCo.Events.Controllers
             
             return View(viewModel);
         }
+
         
-       
         public async Task<IActionResult> ReserveVenue(int? id)
         {
             if (id == null)
@@ -82,6 +82,7 @@ namespace ThAmCo.Events.Controllers
                 Duration = p.Duration,
                 TypeId = p.TypeId,
                 Venues = new  SelectList(venues, "Code", "Name")
+               
 
         }) ;
             return View(viewModel);

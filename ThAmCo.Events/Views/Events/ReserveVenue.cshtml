@@ -1,4 +1,4 @@
-﻿@model ThAmCo.Events.Models.reserveVenueModel
+﻿@model IEnumerable<ThAmCo.Events.Models.reserveVenueModel>
 
 @{
     ViewData["Title"] = "ReserveVenue";
@@ -10,33 +10,44 @@
     <h4>reserveVenueModel</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Duration)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Duration)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TypeId)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TypeId)
-        </dd>
+        @foreach (var item in Model)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd>
+                @Html.DisplayFor(modelItem => item.Title)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Date)
+            </dt>
+            <dd>
+                @Html.DisplayFor(modelItem => item.Date)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Duration)
+            </dt>
+            <dd>
+                @Html.DisplayFor(ModelItem => item.Duration)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.TypeId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(modelItem => item.TypeId)
+            </dd>
+        }
+
     </dl>
+
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    @foreach(var item in Model)
+    {
+        @Html.DropDownListFor(ModelItem => item.Venues, item.Venues ,"select a venue")
+    }
+</div>
+<div>
+    
     <a asp-action="Index">Back to List</a>
 </div>
