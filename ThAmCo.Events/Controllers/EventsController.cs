@@ -46,7 +46,82 @@ namespace ThAmCo.Events.Controllers
             return View(viewModel);
         }
 
+        public async Task<IActionResult> ListStaff(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var @event = await _context.Events
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (@event == null)
+            {
+                return NotFound();
+            }
+            ViewData["Staffing"] = new SelectList(_context.Staff, "Id", "Name");
+
+
+            return View(@event.Staffing);
+        }
+        
+        public async Task<IActionResult> Staffing(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var @event = await _context.Events
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (@event == null)
+            {
+                return NotFound();
+            }
+            ViewData["Staffing"] = new SelectList(_context.Staff , "Id","Name");
+            
+           
+            return View(@event);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStaff(int id, [Bind("Id,Title,Date,Duration,TypeId,Staffing")] Event @event)
+        {
+            if (id != @event.Id)
+            {
+                return NotFound();
+            }
+            
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(@event);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EventExists(@event.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            
+
+
+
+
+            return RedirectToAction(nameof(Index));
+
+        }
         public async Task<IActionResult> ReserveVenue(int? id)
         {
             if (id == null)

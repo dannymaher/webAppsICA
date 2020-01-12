@@ -83,6 +83,9 @@ namespace ThAmCo.Events.Data.Migrations
                     { 3, "jin@example.com", "Jin", "Jellybeans" }
                 });
 
+
+          
+
             migrationBuilder.InsertData(
                 schema: "thamco.events",
                 table: "Events",
@@ -104,6 +107,8 @@ namespace ThAmCo.Events.Data.Migrations
                     { 1, 2, false },
                     { 3, 2, false }
                 });
+
+           
 
             migrationBuilder.CreateIndex(
                 name: "IX_Guests_EventId",
