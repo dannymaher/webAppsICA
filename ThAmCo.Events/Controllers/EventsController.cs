@@ -81,9 +81,9 @@ namespace ThAmCo.Events.Controllers
                 return NotFound();
             }
             ViewData["Staffing"] = new SelectList(_context.Staff , "Id","Name");
+
             
-           
-            return View(@event);
+            return View(@event );
         }
 
         [HttpPost]
@@ -159,8 +159,8 @@ namespace ThAmCo.Events.Controllers
                 Date = p.Date,
                 Duration = p.Duration,
                 TypeId = p.TypeId,
-                Venues = new SelectList(venues, "Code", "Name")
-
+                Venues = new SelectList(venues, "Code", "Name"),
+                
 
             });
             return View(viewModel);
@@ -170,6 +170,7 @@ namespace ThAmCo.Events.Controllers
             HttpClient client = new HttpClient();
             client.BaseAddress = new System.Uri("http://localhost:23652/");
             client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+            
             var reserve = new ReservationPostDto
             {
                 EventDate = model.Date,
