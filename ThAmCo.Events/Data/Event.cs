@@ -6,7 +6,19 @@ using ThAmCo.Events.Models;
 namespace ThAmCo.Events.Data
 {
     public class Event
-    {
+    {   
+        public Event()
+        {
+            if(this.Staffing == null)
+            {
+                this.Staffing = new List<Staff>();
+            }
+            else
+            {
+                this.Staffing = this.Staffing;
+            }
+        }
+
         public int Id { get; set; }
 
         [Required]
@@ -21,6 +33,6 @@ namespace ThAmCo.Events.Data
 
         public List<GuestBooking> Bookings { get; set; }
 
-        public ICollection<Staff> Staffing { get; set; }
+        public List<Staff> Staffing { get; set; }
     }
 }

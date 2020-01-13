@@ -40,13 +40,16 @@
                         <span asp-validation-for="TypeId" class="text-danger"></span>
                     </div>
                     <div class=" form-group">
-                        <label asp-for="Staffing" class="control-label">Add Staff</label>
-                        <select asp-for="Id" class="form-control" asp-items="ViewBag.Staffing "></select>
-
-                        @Html.DropDownList("Staff", (SelectList)ViewBag.Staffing,"select Staff",Model.Staffing)
+                        
+                        @using (Html.BeginForm())
+                        {
+                            @Html.DropDownList("Staff",  (SelectList)ViewBag.Staffing, "select Staff", null)
+                            <button type="submit" value="Send">Submit</button>
+                        }
                         
 
-                        <button type="submit">Submit</button>
+
+                        
 
 
                     </div>

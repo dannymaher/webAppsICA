@@ -76,6 +76,8 @@ namespace ThAmCo.Events.Data
 
         public DbSet<ThAmCo.Events.Models.reserveVenueModel> reserveVenueModel { get; set; }
 
+        public DbSet<ThAmCo.Events.Models.AddStaffModel> AddStaffModel { get; set; }
+
         
     }
 }
