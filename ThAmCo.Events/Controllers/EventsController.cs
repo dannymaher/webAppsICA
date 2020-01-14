@@ -104,11 +104,13 @@ namespace ThAmCo.Events.Controllers
             
             
             @event.Staffing.Add(  staff3);
+
             
             if (ModelState.IsValid)
             {
                 try
                 {
+                    
                     _context.Update(@event);
                     
                     await _context.SaveChangesAsync();
@@ -213,6 +215,7 @@ namespace ThAmCo.Events.Controllers
                 try
                 {
                     _context.Update(guestBooking);
+                    
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
