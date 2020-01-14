@@ -61,9 +61,9 @@ namespace ThAmCo.Events.Controllers
                 return NotFound();
             }
             ViewData["Staffing"] = new SelectList(_context.Staff, "Id", "Name", @event.Staffing);
-            Staff staff3 = await _context.Staff
-                .FirstOrDefaultAsync(m => m.Id == 1);
-            @event.Staffing.Add(staff3);
+            //Staff staff3 = await _context.Staff
+            //    .FirstOrDefaultAsync(m => m.Id == 1);
+            //@event.Staffing.Add(staff3);
             return View(@event.Staffing);
         }
         
@@ -110,6 +110,7 @@ namespace ThAmCo.Events.Controllers
                 try
                 {
                     _context.Update(@event);
+                    
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -123,14 +124,14 @@ namespace ThAmCo.Events.Controllers
                         throw;
                     }
                 }
-                Event result = await _context.Events.FirstOrDefaultAsync(m => m.Id == id);
-                if(result != null)
-                {
-                    result.Staffing.Add(staff3);
-                    _context.Entry(result).State = EntityState.Modified;
-                    _context.Events.Update(result);
-                    await _context.SaveChangesAsync();
-                }
+                //Event result = await _context.Events.FirstOrDefaultAsync(m => m.Id == id);
+                //if(result != null)
+                //{
+                //    result.Staffing.Add(staff3);
+                //    _context.Entry(result).State = EntityState.Modified;
+                //    _context.Events.Update(result);
+                //    await _context.SaveChangesAsync();
+                //}
                 
                 return RedirectToAction(nameof(Index));
             }

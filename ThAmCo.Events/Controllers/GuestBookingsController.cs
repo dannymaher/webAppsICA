@@ -72,13 +72,13 @@ namespace ThAmCo.Events.Controllers
                 var personExists = _context.Guests.Any(pe => pe.CustomerId == guestBooking.CustomerId && pe.EventId == guestBooking.EventId);
                 if (personExists)
                 {
-                    ModelState.AddModelError(String.Empty, "This guest is already booked onto this event");
+                    ModelState.AddModelError("CustomerId", "This guest is already booked onto this event");
                 }
                 else
                 {
                     _context.Add(guestBooking);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { id = guestBooking.EventId });
                 }
                 
             }
@@ -96,6 +96,7 @@ namespace ThAmCo.Events.Controllers
             }
 
             var guestBooking = await _context.Guests.FindAsync(id);
+            //var guestBooking = await _context.Guests.FirstOrDefaultAsync(m => m.EventId == id) ;
             if (guestBooking == null)
             {
                 return NotFound();

@@ -9,7 +9,11 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<b>
+    @Html.DisplayName("Total guests: " + Model.Count().ToString() )
+</b>
     <table class="table">
+        
 
         <thead>
             <tr>
